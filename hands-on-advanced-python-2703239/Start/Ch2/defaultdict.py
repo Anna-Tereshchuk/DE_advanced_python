@@ -9,8 +9,8 @@ with open("../../sample-weather-history.json", "r") as weatherfile:
 # Підрахунок кількості записів для кожного року за допомогою defaultdict
 years = defaultdict(int)
 for day in weatherdata:
-    year = day['date'][:4]
-    years[year] += 1
+    key = day['date'][0:4]
+    years[key] += 1
 
 print("Number of data points for each year:")
 pprint.pprint(dict(years))
@@ -18,7 +18,7 @@ pprint.pprint(dict(years))
 # Використання defaultdict зі списками для зберігання днів за місяцями
 years_months = defaultdict(list)
 for day in weatherdata:
-    year_month = day['date'][:7]
+    year_month = day['date'][0:7]
     years_months[year_month].append(day)
 
 print("\nNumber of keys (year-month) in the dictionary:")
