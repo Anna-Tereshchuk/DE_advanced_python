@@ -1,24 +1,30 @@
-# Example file for Advanced Python: Hands On by Joe Marini
-# Count items using a default dictionary
-
 import json
 import pprint
+from collections import defaultdict
 
-
-# open the sample weather data file and use the json module to load and parse it
+# Відкриття файлу з даними про погоду та завантаження їх за допомогою модуля json
 with open("../../sample-weather-history.json", "r") as weatherfile:
     weatherdata = json.load(weatherfile)
 
-# The defaultdict collection provides a cleaner way of initializing key values
-# TODO: Count the number of data points for each year we have data
+# Підрахунок кількості записів для кожного року за допомогою defaultdict
+years = defaultdict(int)
+for day in weatherdata:
+    year = day['date'][:4]
+    years[year] += 1
 
+print("Number of data points for each year:")
+pprint.pprint(dict(years))
 
-# TODO: defaultdict can use more complex objects, like lists
+# Використання defaultdict зі списками для зберігання днів за місяцями
+years_months = defaultdict(list)
+for day in weatherdata:
+    year_month = day['date'][:7]
+    years_months[year_month].append(day)
 
-# TODO: create a dictionary with year-month keys and lists for each day in the month
+print("\nNumber of keys (year-month) in the dictionary:")
+print(len(years_months))
 
-
-# What were the coldest and warmest days of each month?
+# Функції для визначення найтеплішого та найхолоднішого дня місяця
 def warmest_day(month):
     wd = max(month, key=lambda d: d['tmax'])
     return (wd['date'], wd['tmax'])
@@ -27,4 +33,9 @@ def coldest_day(month):
     cd = min(month, key=lambda d: d['tmin'])
     return (cd['date'], cd['tmin'])
 
-# TODO: loop over the keys of the dictionary and find each warmest and coldest day
+# Обхід ключів словника та визначення найтеплішого та найхолоднішого дня кожного місяця
+for year_month, days in years_months.items():
+    warmest = warmest_day(days)
+    coldest = coldest_day(days)
+    print(f"\nThe warmest day in {year_month} was {warmest[0]} with a max temperature of {warmest[1]}")
+    print(f"The coldest day in {year_month} was {coldest[0]} with a min temperature of {coldest[1]}")
