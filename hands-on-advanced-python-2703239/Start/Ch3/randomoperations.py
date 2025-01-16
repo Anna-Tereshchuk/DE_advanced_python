@@ -1,21 +1,39 @@
-# Example file for Advanced Python: Hands On by Joe Marini
-
 import json
 import random
 import pprint
 
-# open the sample weather data file and use the json module to load and parse it
+# Open the sample weather data file and use the json module to load and parse it
 with open("../../sample-weather-history.json", "r") as weatherfile:
     weatherdata = json.load(weatherfile)
 
-# get the first 30 days in the dataset
+# Get the first 30 days in the dataset
 month_data = weatherdata[0:30]
 
-# TODO: the shuffle() function will randomly shuffle a list in-place
+# The shuffle() function will randomly shuffle a list in-place
+print("Before shuffling:")
+pprint.pprint(month_data[:3])
+random.shuffle(month_data)
+print("After shuffling:")
+pprint.pprint(month_data[:3])
 
-
-# TODO: use choice() and choices() to get random items, but beware that
+# Use choice() and choices() to get random items, but beware that
 # these functions can produce duplicate results
+rnd_day = random.choice(month_data)
+print("Random day:")
+pprint.pprint(rnd_day)
+
+rnd_days = random.choices(month_data, k=3)
+print("Random days:")
+pprint.pprint(rnd_days)
+
+# Use sample() to get unique random items
+unique_days = random.sample(month_data, 3)
+print("Unique random days:")
+pprint.pprint(unique_days)
+
+
+
+
 
 
 # TODO: the sample() function will choose random items with no duplicates
